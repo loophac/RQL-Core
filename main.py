@@ -13,8 +13,12 @@ def mainInterface():
     sStarSystem = input("What Star do you want to store in?\n>")
     d = shelve.open(sStarSystem + ".star")
     sPlanet = input("Which planet?\n>")
-    dataTW = input("What to store\n>")
-    d[sPlanet] = dataTW
+    planetBuffer = ""
+    d[sPlanet] = planetBuffer
+    dataTW = input("What would you like to store?\n>")
+    temp = list(d[sPlanet]) 
+    temp.append(dataTW)
+    d[sPlanet] = temp
     d.close
     mainInterface()
   elif command == "view":
@@ -56,6 +60,16 @@ def mainInterface():
     print(sList)
     input("Press Enter to Continue...")
     mainInterface()
+  elif command == "ammend":
+    aStarSystem = input("What Star to view?\n>")
+    d = shelve.open(aStarSystem + ".star", writeback=False)
+    aPlanet = input("Which planet to amend?\n>")
+    aData = input("What would you like to ammend?\n>")
+    temp = list(d[aPlanet]) 
+    temp.append(aData)
+    d[aPlanet] = temp  
+    mainInterface()
+
 
 
 
