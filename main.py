@@ -3,14 +3,14 @@ import shelve
 import glob
 
 def mainInterface():
-  print("RQL v1.0.1")
+  print("RQL v1.0.2-dev")
   command = (input(">"))
   if command == "create":
     nstar_system = input("Name for new Star:\n>") 
     d = shelve.open(nstar_system + ".star")
     mainInterface()
   elif command == "help":
-    print('''RQL v1.0.1 \n create - makes a new star \n store - stores data in planet. Creates planet if not made, overwrites star otherwise.\n view - view the data in a planet \n ''')
+    print('''RQL v1.0.2-dev \n create - makes a new star \n store - stores data in planet. Creates planet if not made, overwrites star otherwise.\n view - view the data in a planet \n ''')
   elif command == "store":
     sStarSystem = input("What Star do you want to store in?\n>")
     d = shelve.open(sStarSystem + ".star")
@@ -31,7 +31,7 @@ def mainInterface():
     print(vdata)
     input("Press Enter to Continue...")
     mainInterface()
-  elif command == "index planet":
+  elif command == "index p":
     iStarSystem = input("What Star to view?\n>") 
     d = shelve.open(iStarSystem + ".star") 
     klist = list(d.keys())
@@ -57,7 +57,7 @@ def mainInterface():
     print(qPlanetResult)
     input("Press Enter to Continue...")
     mainInterface()
-  elif command == "index star":
+  elif command == "index s":
     sList = glob.glob("*.star")
     print(sList)
     input("Press Enter to Continue...")
@@ -70,6 +70,29 @@ def mainInterface():
     temp = list(d[aPlanet]) 
     temp.append(aData)
     d[aPlanet] = temp  
+    mainInterface()
+  elif command == "rapid ammend":
+    raStarSystem = input("What Star to view?\n>")
+    d = shelve.open(raStarSystem + ".star", writeback=False)
+    raPlanet = input("Which planet to rapid amend?\n>")
+    raData = input("What would you like to ammend?\n>")
+    raTimes = int(input("How many times? \n>"))
+    for _ in range(raTimes):
+      temp = list(d[raPlanet]) 
+      temp.append(raData)
+      d[raPlanet] = temp  
+    mainInterface()
+  elif command == "rapid store":
+    rsStarSystem = input("What Star do you want to store in?\n>")
+    rsTime = int(input("How many times?"))
+    counter = 0
+    for _ in range(rsTime):
+      d = shelve.open(rsStarSystem + ".star")
+      rsPlanet = "rapid %s" % counter
+      planetBuffer = ""
+      d[rsPlanet] = planetBuffer
+      counter = counter + 1
+    d.close
     mainInterface()
 
 
