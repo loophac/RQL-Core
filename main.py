@@ -43,7 +43,7 @@ def mainInterface():
   elif command == "where":
     qStar = input("What Star to Query?\n>")
     d = shelve.open(qStar + ".star")
-    qString = input("Search term:")
+    qString = input("Search term:\n>")
     qList = list(d.keys())
     qPlanetResult = [s for s in qList if any(xs in s for xs in qString)]
     #qData = d[qPlanetResult]  
